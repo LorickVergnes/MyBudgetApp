@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../hooks/useAuth';
 import { formatMonthDate } from '../../lib/dateUtils';
-import { Plus, X, Check, Wallet, ShoppingBag, Utensils, Car, Heart, Gamepad2, Dumbbell, GraduationCap, Plane, Sparkles, Loader2, Trash2, ChevronRight, RotateCw, Info, Pencil } from 'lucide-react';
+import { Plus, Check, Loader2, Trash2, ChevronRight, RotateCw, Info, Pencil } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { recurrenceService } from '../../services/recurrenceService';
 import BottomNav from '../../components/layout/BottomNav';
@@ -10,12 +10,8 @@ import MonthSelector from '../../components/layout/MonthSelector';
 import TopBar from '../../components/layout/TopBar';
 import BottomModal from '../../components/ui/BottomModal';
 import { FormCard, AmountInput } from '../../components/ui/FormUI';
-
-const ICONS = [
-  { id: 'Wallet', icon: Wallet }, { id: 'ShoppingBag', icon: ShoppingBag }, { id: 'Utensils', icon: Utensils },
-  { id: 'Car', icon: Car }, { id: 'Heart', icon: Heart }, { id: 'Gamepad2', icon: Gamepad2 },
-  { id: 'Dumbbell', icon: Dumbbell }, { id: 'GraduationCap', icon: GraduationCap }, { id: 'Plane', icon: Plane }, { id: 'Sparkles', icon: Sparkles },
-];
+import IconSelector from '../../components/ui/IconSelector';
+import { getIconComponent } from '../../lib/iconRegistry';
 const COLORS = ['#5C6EFF', '#22c55e', '#F9A825', '#ef4444', '#9B5CFF', '#06b6d4', '#64748b'];
 const ACCENT = '#5C6EFF';
 
@@ -112,12 +108,12 @@ const Envelopes = () => {
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                   {envelopes.map((env, i) => {
-                    const IC = ICONS.find(x => x.id === env.icon)?.icon || Wallet;
+                    const IC = getIconComponent(env.icon);
                     const over = env.spent > env.max_amount;
                     const remaining = env.max_amount - env.spent;
                     return (
                       <div key={env.id} className="card fade-up" style={{ padding: '16px', cursor: 'pointer', animationDelay: `${i * 40}ms`, background: over ? '#FFF5F5' : 'white' }}
-                        onClick={() => navigate(`/envelopes/${env.id}`, { state: { date: selectedDate, name: env.name } })}>
+                        onClick={() => navigate(`/envelopes/${env.id}`, { state: { date: selectedDate, name: env.name, icon: env.icon, color: env.color } })}>
                         <div style={{ width: 44, height: 44, borderRadius: '50%', background: `${env.color || ACCENT}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
                           <IC size={22} style={{ color: env.color || ACCENT }} />
                         </div>
@@ -196,27 +192,11 @@ const Envelopes = () => {
           </FormCard>
 
           <FormCard>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
-              <div style={{ width: 40, height: 40, borderRadius: '50%', background: `${formData.color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {(() => {
-                  const CurrentIcon = ICONS.find(it => it.id === formData.icon)?.icon || Wallet;
-                  return <CurrentIcon size={20} style={{ color: formData.color }} />;
-                })()}
-              </div>
-              <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: '#1a1a2e', display: 'block', marginBottom: 2 }}>Apparence Icône</label>
-                <span style={{ fontSize: 13, color: '#9CA3AF' }}>Cliquez pour choisir</span>
-              </div>
-            </div>
-            
-            <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 8, margin: '0 -4px' }}>
-              {ICONS.map(it => (
-                <button key={it.id} type="button" onClick={() => setFormData({ ...formData, icon: it.id })}
-                  style={{ width: 44, height: 44, flexShrink: 0, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: formData.icon === it.id ? `2px solid ${formData.color}` : '2px solid transparent', background: 'transparent', cursor: 'pointer' }}>
-                  <it.icon size={20} style={{ color: formData.icon === it.id ? formData.color : '#D1D5DB' }} />
-                </button>
-              ))}
-            </div>
+            <IconSelector 
+              value={formData.icon} 
+              color={formData.color} 
+              onChange={val => setFormData({ ...formData, icon: val })} 
+            />
           </FormCard>
 
           <FormCard>

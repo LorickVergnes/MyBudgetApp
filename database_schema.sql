@@ -1,6 +1,6 @@
 -- ==========================================
 -- SCRIPT DE CRÉATION DE LA BASE DE DONNÉES
--- MYBUDGETAPP - FULL SCHEMA
+-- LUNABUDGET - FULL SCHEMA
 -- ==========================================
 
 -- Nettoyage des anciennes tables pour repartir sur une base saine

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../hooks/useAuth';
 import { formatMonthDate } from '../../lib/dateUtils';
-import { ArrowLeft, Plus, X, Check, Loader2, Trash2, Calendar, ShoppingCart, Pencil } from 'lucide-react';
+import { ArrowLeft, Plus, Check, Loader2, Trash2, Calendar, Pencil, ShoppingCart } from 'lucide-react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { getIconComponent } from '../../lib/iconRegistry';
 import BottomNav from '../../components/layout/BottomNav';
 import TopBar from '../../components/layout/TopBar';
 import BottomModal from '../../components/ui/BottomModal';
@@ -16,6 +17,9 @@ const EnvelopeDetail = () => {
   const location = useLocation();
   const [selectedDate] = useState(new Date(location.state?.date || new Date()));
   const [envelopeName] = useState(location.state?.name || 'Enveloppe');
+  const envelopeIcon = location.state?.icon || 'Wallet';
+  const envelopeColor = location.state?.color || '#5C6EFF';
+  const HeaderIcon = getIconComponent(envelopeIcon);
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -77,15 +81,15 @@ const EnvelopeDetail = () => {
           <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}><Loader2 size={32} style={{ color: '#5C6EFF' }} className="animate-spin" /></div>
         ) : expenses.length === 0 ? (
           <div className="card" style={{ padding: '60px 20px', textAlign: 'center', marginTop: 16 }}>
-            <ShoppingCart size={40} style={{ color: '#D1D5DB', margin: '0 auto 12px' }} />
+            <HeaderIcon size={40} style={{ color: '#D1D5DB', margin: '0 auto 12px' }} />
             <p style={{ color: '#B0B8C9', fontWeight: 600 }}>Aucune dépense dans cette enveloppe.</p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
             {expenses.map((exp, i) => (
               <div key={exp.id} className="card fade-up" style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 14, animationDelay: `${i * 40}ms` }}>
-                <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#5C6EFF18', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <ShoppingCart size={20} style={{ color: '#5C6EFF' }} />
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: `${envelopeColor}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <HeaderIcon size={20} style={{ color: envelopeColor }} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontSize: 15, fontWeight: 700, color: '#1a1a2e', marginBottom: 2 }}>{exp.name}</p>

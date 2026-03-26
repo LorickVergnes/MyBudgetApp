@@ -40,19 +40,17 @@ const Signup = () => {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col justify-center p-6">
-        <div className="max-w-md w-full mx-auto text-center space-y-6 bg-white p-10 rounded-3xl shadow-xl border border-slate-100">
-          <div className="flex justify-center">
-            <div className="bg-emerald-100 p-4 rounded-full">
-              <CheckCircle2 className="text-emerald-600" size={48} />
-            </div>
+      <div style={{ minHeight: '100vh', background: '#EEF2FB', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px 20px' }}>
+        <div className="card" style={{ width: '100%', maxWidth: 440, padding: 32, textAlign: 'center' }}>
+          <div style={{ width: 80, height: 80, borderRadius: '50%', background: '#22c55e15', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+            <CheckCircle2 size={40} color="#22c55e" />
           </div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Vérifiez vos emails !</h1>
-          <p className="text-slate-600 font-medium leading-relaxed">
-            Nous avons envoyé un lien de confirmation à <span className="font-bold text-slate-900">{email}</span>. 
+          <h1 style={{ fontSize: 24, fontWeight: 900, color: '#1a1a2e', marginBottom: 16 }}>Vérifiez vos emails !</h1>
+          <p style={{ fontSize: 14, color: '#555', fontWeight: 500, lineHeight: 1.6, marginBottom: 28 }}>
+            Nous avons envoyé un lien de confirmation à <strong style={{color: '#1a1a2e'}}>{email}</strong>.<br/><br/>
             Veuillez confirmer votre compte pour commencer à gérer votre budget.
           </p>
-          <Link to="/login" className="inline-block text-blue-600 font-bold hover:underline">
+          <Link to="/login" style={{ color: '#5C6EFF', fontWeight: 700, textDecoration: 'none', background: '#5C6EFF15', padding: '12px 24px', borderRadius: 99, display: 'inline-block' }}>
             Retourner à la connexion
           </Link>
         </div>
@@ -61,85 +59,59 @@ const Signup = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center p-6">
-      <div className="max-w-md w-full mx-auto space-y-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Créer un compte</h1>
-          <p className="mt-2 text-slate-600 font-medium">Commencez à épargner intelligemment</p>
+    <div style={{ minHeight: '100vh', background: '#EEF2FB', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px 20px' }}>
+      <div style={{ width: '100%', maxWidth: 400 }}>
+        {/* Logo */}
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ width: 64, height: 64, borderRadius: 20, background: 'linear-gradient(135deg,#5C6EFF,#9B5CFF)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', boxShadow: '0 8px 24px rgba(92,110,255,.35)' }}>
+            <User size={30} color="white" />
+          </div>
+          <h1 style={{ fontSize: 24, fontWeight: 900, color: '#1a1a2e', marginBottom: 6 }}>Créer un compte</h1>
+          <p style={{ fontSize: 14, color: '#B0B8C9', fontWeight: 500 }}>Commencez à épargner intelligemment</p>
         </div>
 
-        <form onSubmit={handleSignup} className="mt-8 space-y-4 bg-white p-8 rounded-3xl shadow-xl border border-slate-100">
+        {/* Form card */}
+        <div className="card" style={{ padding: 24 }}>
           {error && (
-            <div className="p-3 bg-rose-50 text-rose-600 text-sm font-semibold rounded-xl border border-rose-100">
+            <div style={{ background: '#FFF0F0', border: '1px solid #FFCDD2', borderRadius: 10, padding: '12px 14px', marginBottom: 16, fontSize: 13, fontWeight: 600, color: '#ef4444' }}>
               {error}
             </div>
           )}
-
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase ml-1">Nom complet</label>
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-              <input
-                type="text"
-                required
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-900"
-                placeholder="Jean Dupont"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
+          <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#B0B8C9', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Nom complet</label>
+              <div style={{ position: 'relative' }}>
+                <User size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#B0B8C9' }} />
+                <input type="text" required placeholder="Jean Dupont" className="field" style={{ paddingLeft: 42 }}
+                  value={fullName} onChange={e => setFullName(e.target.value)} />
+              </div>
             </div>
-          </div>
-
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase ml-1">Email</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-              <input
-                type="email"
-                required
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-900"
-                placeholder="votre@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#B0B8C9', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Email</label>
+              <div style={{ position: 'relative' }}>
+                <Mail size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#B0B8C9' }} />
+                <input type="email" required placeholder="votre@email.com" className="field" style={{ paddingLeft: 42 }}
+                  value={email} onChange={e => setEmail(e.target.value)} />
+              </div>
             </div>
-          </div>
-
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase ml-1">Mot de passe</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-              <input
-                type="password"
-                required
-                minLength={6}
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-900"
-                placeholder="Min. 6 caractères"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#B0B8C9', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Mot de passe</label>
+              <div style={{ position: 'relative' }}>
+                <Lock size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#B0B8C9' }} />
+                <input type="password" required minLength={6} placeholder="••••••••" className="field" style={{ paddingLeft: 42 }}
+                  value={password} onChange={e => setPassword(e.target.value)} />
+              </div>
             </div>
-          </div>
+            <button type="submit" disabled={loading}
+              style={{ background: 'linear-gradient(135deg,#5C6EFF,#9B5CFF)', color: 'white', border: 'none', borderRadius: 14, padding: '15px', fontSize: 15, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: '0 6px 20px rgba(92,110,255,.4)', marginTop: 4 }}>
+              {loading ? <Loader2 size={20} className="animate-spin" /> : <><span>S'inscrire</span><ArrowRight size={18} /></>}
+            </button>
+          </form>
+        </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg hover:bg-blue-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-          >
-            {loading ? <Loader2 className="animate-spin" size={20} /> : (
-              <>
-                S'inscrire
-                <ArrowRight size={18} />
-              </>
-            )}
-          </button>
-        </form>
-
-        <p className="text-center text-slate-600 font-medium">
+        <p style={{ textAlign: 'center', fontSize: 14, color: '#B0B8C9', fontWeight: 500, marginTop: 20 }}>
           Déjà un compte ?{' '}
-          <Link to="/login" className="text-blue-600 font-bold hover:underline">
-            Se connecter
-          </Link>
+          <Link to="/login" style={{ color: '#5C6EFF', fontWeight: 700, textDecoration: 'none' }}>Se connecter</Link>
         </p>
       </div>
     </div>

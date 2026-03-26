@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../hooks/useAuth';
 import { formatMonthDate } from '../../lib/dateUtils';
-import { Plus, X, Check, Home, Zap, Shield, Car, Scissors, Coffee, ShoppingCart, Utensils, Heart, HelpCircle, Calendar, RotateCw, Loader2, Trash2, Info, Pencil } from 'lucide-react';
+import { Plus, Check, Calendar, RotateCw, Loader2, Trash2, Pencil } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { recurrenceService } from '../../services/recurrenceService';
 import BottomNav from '../../components/layout/BottomNav';
@@ -10,12 +10,8 @@ import MonthSelector from '../../components/layout/MonthSelector';
 import TopBar from '../../components/layout/TopBar';
 import BottomModal from '../../components/ui/BottomModal';
 import { FormCard, AmountInput } from '../../components/ui/FormUI';
-
-const ICONS = [
-  { id: 'Home', icon: Home }, { id: 'Zap', icon: Zap }, { id: 'Shield', icon: Shield }, { id: 'Car', icon: Car },
-  { id: 'Scissors', icon: Scissors }, { id: 'Coffee', icon: Coffee }, { id: 'ShoppingCart', icon: ShoppingCart },
-  { id: 'Utensils', icon: Utensils }, { id: 'Heart', icon: Heart }, { id: 'HelpCircle', icon: HelpCircle },
-];
+import IconSelector from '../../components/ui/IconSelector';
+import { getIconComponent } from '../../lib/iconRegistry';
 const COLORS = ['#9B5CFF', '#ef4444', '#f97316', '#5C6EFF', '#22c55e', '#F9A825'];
 const ACCENT = '#9B5CFF';
 
@@ -104,7 +100,7 @@ const Expenses = () => {
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {expenses.map((exp, i) => {
-                    const IC = ICONS.find(x => x.id === exp.icon)?.icon || HelpCircle;
+                    const IC = getIconComponent(exp.icon);
                     return (
                       <div key={exp.id} className="card fade-up" style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 14, animationDelay: `${i * 40}ms` }}>
                         <div style={{ width: 44, height: 44, borderRadius: '50%', background: `${exp.color || ACCENT}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -195,27 +191,11 @@ const Expenses = () => {
           </FormCard>
 
           <FormCard>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
-              <div style={{ width: 40, height: 40, borderRadius: '50%', background: `${formData.color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {(() => {
-                  const CurrentIcon = ICONS.find(it => it.id === formData.icon)?.icon || HelpCircle;
-                  return <CurrentIcon size={20} style={{ color: formData.color }} />;
-                })()}
-              </div>
-              <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: '#1a1a2e', display: 'block', marginBottom: 2 }}>Apparence Icône</label>
-                <span style={{ fontSize: 13, color: '#9CA3AF' }}>Cliquez pour choisir</span>
-              </div>
-            </div>
-            
-            <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 8, margin: '0 -4px' }}>
-              {ICONS.map(it => (
-                <button key={it.id} type="button" onClick={() => setFormData({ ...formData, icon: it.id })}
-                  style={{ width: 44, height: 44, flexShrink: 0, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: formData.icon === it.id ? `2px solid ${formData.color}` : '2px solid transparent', background: 'transparent', cursor: 'pointer' }}>
-                  <it.icon size={20} style={{ color: formData.icon === it.id ? formData.color : '#D1D5DB' }} />
-                </button>
-              ))}
-            </div>
+            <IconSelector 
+              value={formData.icon} 
+              color={formData.color} 
+              onChange={val => setFormData({ ...formData, icon: val })} 
+            />
           </FormCard>
 
           <FormCard>

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../hooks/useAuth';
 import { formatMonthDate } from '../../lib/dateUtils';
-import { ArrowLeft, Plus, X, Check, Loader2, Trash2, Calendar, PiggyBank, Pencil } from 'lucide-react';
+import { ArrowLeft, Plus, Check, Loader2, Trash2, Calendar, Pencil } from 'lucide-react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { getIconComponent } from '../../lib/iconRegistry';
 import BottomNav from '../../components/layout/BottomNav';
 import TopBar from '../../components/layout/TopBar';
 import BottomModal from '../../components/ui/BottomModal';
@@ -16,6 +17,9 @@ const SavingDetail = () => {
   const location = useLocation();
   const [selectedDate] = useState(new Date(location.state?.date || new Date()));
   const [savingName] = useState(location.state?.name || 'Épargne');
+  const savingIcon = location.state?.icon || 'PiggyBank';
+  const savingColor = location.state?.color || '#F9A825';
+  const HeaderIcon = getIconComponent(savingIcon);
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -76,15 +80,15 @@ const SavingDetail = () => {
           <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}><Loader2 size={32} style={{ color: '#F9A825' }} className="animate-spin" /></div>
         ) : entries.length === 0 ? (
           <div className="card" style={{ padding: '60px 20px', textAlign: 'center', marginTop: 16 }}>
-            <PiggyBank size={40} style={{ color: '#D1D5DB', margin: '0 auto 12px' }} />
+            <HeaderIcon size={40} style={{ color: '#D1D5DB', margin: '0 auto 12px' }} />
             <p style={{ color: '#B0B8C9', fontWeight: 600 }}>Aucun versement pour cet objectif.</p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
             {entries.map((entry, i) => (
               <div key={entry.id} className="card fade-up" style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 14, animationDelay: `${i * 40}ms` }}>
-                <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#F9A82522', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <PiggyBank size={20} style={{ color: '#F9A825' }} />
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: `${savingColor}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <HeaderIcon size={20} style={{ color: savingColor }} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: 15, fontWeight: 700, color: '#1a1a2e', marginBottom: 2 }}>Versement</p>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../hooks/useAuth';
 import { formatMonthDate } from '../../lib/dateUtils';
-import { Plus, X, Check, PiggyBank, Target, TrendingUp, Gem, Landmark, Coins, HeartPulse, Loader2, Trash2, ChevronRight, RotateCw, Info, MoreVertical, Pencil } from 'lucide-react';
+import { Plus, Check, Loader2, Trash2, ChevronRight, RotateCw, Info, MoreVertical, Pencil } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { recurrenceService } from '../../services/recurrenceService';
 import BottomNav from '../../components/layout/BottomNav';
@@ -10,11 +10,8 @@ import MonthSelector from '../../components/layout/MonthSelector';
 import TopBar from '../../components/layout/TopBar';
 import BottomModal from '../../components/ui/BottomModal';
 import { FormCard, AmountInput } from '../../components/ui/FormUI';
-
-const ICONS = [
-  { id: 'PiggyBank', icon: PiggyBank }, { id: 'Target', icon: Target }, { id: 'TrendingUp', icon: TrendingUp },
-  { id: 'Gem', icon: Gem }, { id: 'Landmark', icon: Landmark }, { id: 'Coins', icon: Coins }, { id: 'HeartPulse', icon: HeartPulse },
-];
+import IconSelector from '../../components/ui/IconSelector';
+import { getIconComponent } from '../../lib/iconRegistry';
 const COLORS = ['#F9A825', '#5C6EFF', '#9B5CFF', '#ef4444', '#22c55e', '#06b6d4'];
 
 const Savings = () => {
@@ -133,12 +130,12 @@ const Savings = () => {
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {savings.map((s, i) => {
-                    const IC = ICONS.find(x => x.id === s.icon)?.icon || PiggyBank;
+                    const IC = getIconComponent(s.icon);
                     const pct = Math.min((s.current / Math.max(s.target_amount, 1)) * 100, 100);
                     const done = s.current >= s.target_amount;
                     return (
                       <div key={s.id} className="card fade-up" style={{ padding: '16px', animationDelay: `${i * 40}ms`, cursor: 'pointer' }}
-                        onClick={() => navigate(`/savings/${s.id}`, { state: { date: selectedDate, name: s.name } })}>
+                        onClick={() => navigate(`/savings/${s.id}`, { state: { date: selectedDate, name: s.name, icon: s.icon, color: s.color } })}>
                         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
                           <div style={{ width: 46, height: 46, borderRadius: '50%', background: `${s.color || '#F9A825'}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             <IC size={22} style={{ color: s.color || '#F9A825' }} />
@@ -238,27 +235,11 @@ const Savings = () => {
           )}
 
           <FormCard>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
-              <div style={{ width: 40, height: 40, borderRadius: '50%', background: `${formData.color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {(() => {
-                  const CurrentIcon = ICONS.find(it => it.id === formData.icon)?.icon || PiggyBank;
-                  return <CurrentIcon size={20} style={{ color: formData.color }} />;
-                })()}
-              </div>
-              <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: '#1a1a2e', display: 'block', marginBottom: 2 }}>Apparence Icône</label>
-                <span style={{ fontSize: 13, color: '#9CA3AF' }}>Cliquez pour choisir</span>
-              </div>
-            </div>
-            
-            <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 8, margin: '0 -4px' }}>
-              {ICONS.map(it => (
-                <button key={it.id} type="button" onClick={() => setFormData({ ...formData, icon: it.id })}
-                  style={{ width: 44, height: 44, flexShrink: 0, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: formData.icon === it.id ? `2px solid ${formData.color}` : '2px solid transparent', background: 'transparent', cursor: 'pointer' }}>
-                  <it.icon size={20} style={{ color: formData.icon === it.id ? formData.color : '#D1D5DB' }} />
-                </button>
-              ))}
-            </div>
+            <IconSelector 
+              value={formData.icon} 
+              color={formData.color} 
+              onChange={val => setFormData({ ...formData, icon: val })} 
+            />
           </FormCard>
 
           <FormCard>
