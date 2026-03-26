@@ -1,16 +1,26 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/MyBudgetApp/favicon.svg" />
+    <link rel="icon" type="image/png" href="/LunaBudget/assets/img/Logo_Luna_Budget_192.png" />
+    <link rel="apple-touch-icon" href="/LunaBudget/assets/img/Logo_Luna_Budget_192.png" />
+    <link rel="manifest" href="/LunaBudget/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MyBudgetApp</title>
+    <meta name="theme-color" content="#5C6EFF" />
+    <title>Luna Budget</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/MyBudgetApp/assets/index-DQwP5O0F.js"></script>
-    <link rel="stylesheet" crossorigin href="/MyBudgetApp/assets/index-B3h5Z04_.css">
-  </head>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/LunaBudget/sw.js');
+        });
+      }
+    </script>
+      <script type="module" crossorigin src="/LunaBudget/assets/index-s5kD7JCi.js"></script>
+      <link rel="stylesheet" crossorigin href="/LunaBudget/assets/index-B7qrorZj.css">
+    </head>
+
   <body class="bg-slate-50 font-['Inter']">
     <div id="root"></div>
   </body>
