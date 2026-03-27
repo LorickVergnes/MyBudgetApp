@@ -13,7 +13,9 @@ import BottomModal from '../../components/ui/BottomModal';
 import { FormCard, AmountInput } from '../../components/ui/FormUI';
 import IconSelector from '../../components/ui/IconSelector';
 import { getIconComponent } from '../../lib/iconRegistry';
-const COLORS = ['#F9A825', '#5C6EFF', '#9B5CFF', '#ef4444', '#22c55e', '#06b6d4'];
+import DonutChart from '../../components/ui/DonutChart';
+import ColorPicker from '../../components/ui/ColorPicker';
+import { ALL_COLORS } from '../../lib/colorUtils';
 
 const Savings = () => {
   const { user } = useAuth();
@@ -75,6 +77,8 @@ const Savings = () => {
   const total = savings.reduce((a, c) => a + parseFloat(c.target_amount), 0);
   const totalSaved = savings.reduce((a, c) => a + c.current, 0);
 
+  const usedColors = savings.filter(s => s.id !== editingId).map(s => s.color);
+
   return (
     <div style={{ minHeight: '100vh', background: '#EEF2FB', paddingBottom: 76 }}>
       <TopBar title="Épargne" />
@@ -94,21 +98,11 @@ const Savings = () => {
                   <p style={{ fontSize: 24, fontWeight: 900, color: '#1a1a2e', marginBottom: 2 }}>{total.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</p>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
-                  <svg width={100} height={100} viewBox="0 0 140 140">
-                    <circle cx="70" cy="70" r="52" fill="none" strokeWidth={16} stroke="#EEF2FB" />
-                    {savings.map((s, i) => {
-                      const pct = (parseFloat(s.target_amount) / Math.max(total, 1));
-                      const prev = savings.slice(0, i).reduce((a, x) => a + parseFloat(x.target_amount) / Math.max(total, 1), 0);
-                      const circ = 2 * Math.PI * 52;
-                      return (
-                        <circle key={s.id} cx="70" cy="70" r="52" fill="none" strokeWidth={16} stroke={s.color || '#F9A825'}
-                          strokeDasharray={`${pct * circ - 2} ${circ}`}
-                          strokeDashoffset={-(prev * circ)}
-                          strokeLinecap="round"
-                          style={{ transform: 'rotate(-90deg)', transformOrigin: '70px 70px' }} />
-                      );
-                    })}
-                  </svg>
+                  <DonutChart 
+                    segments={savings.map(s => ({ value: parseFloat(s.target_amount), color: s.color || '#F9A825' }))} 
+                    total={total || 1} 
+                    size={120} 
+                  />
                 </div>
                 <div style={{ flex: '1 1 140px', display: 'flex', flexDirection: 'column', gap: 6, minWidth: '140px' }}>
                   {savings.slice(0, 3).map(s => (
@@ -245,13 +239,11 @@ const Savings = () => {
           </FormCard>
 
           <FormCard>
-            <label style={{ fontSize: 12, fontWeight: 700, color: '#9CA3AF', display: 'block', marginBottom: 12 }}>Couleur de l'icône</label>
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              {COLORS.map(c => (
-                <button key={c} type="button" onClick={() => setFormData({ ...formData, color: c })}
-                  style={{ width: 32, height: 32, borderRadius: '50%', background: c, border: formData.color === c ? '3px solid #1a1a2e' : 'none', cursor: 'pointer', padding: 0 }} />
-              ))}
-            </div>
+            <ColorPicker 
+              value={formData.color} 
+              usedColors={usedColors} 
+              onChange={c => setFormData({ ...formData, color: c })} 
+            />
           </FormCard>
 
           <button type="submit" disabled={loading}

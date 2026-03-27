@@ -13,48 +13,11 @@ import BottomModal from '../../components/ui/BottomModal';
 import { FormCard, AmountInput } from '../../components/ui/FormUI';
 import IconSelector from '../../components/ui/IconSelector';
 import { getIconComponent } from '../../lib/iconRegistry';
-const COLORS = ['#9B5CFF', '#ef4444', '#f97316', '#5C6EFF', '#22c55e', '#F9A825'];
+import DonutChart from '../../components/ui/DonutChart';
+import ColorPicker from '../../components/ui/ColorPicker';
+import { ALL_COLORS } from '../../lib/colorUtils';
+
 const ACCENT = '#9B5CFF';
-
-/* ── Donut ring chart ── */
-const DonutChart = ({ segments, total, size = 140 }) => {
-  const r = 52, cx = 70, cy = 70;
-  const circ = 2 * Math.PI * r;
-  let accumulatedPct = 0;
-
-  return (
-    <svg width={size} height={size} viewBox="0 0 140 140">
-      <circle cx={cx} cy={cy} r={r} fill="none" strokeWidth={16} stroke="#EEF2FB" />
-      {segments.map((seg, i) => {
-        const pct = total > 0 ? seg.value / total : 0;
-        const strokeDasharray = `${pct * circ} ${circ}`;
-        const strokeDashoffset = -(accumulatedPct * circ);
-        accumulatedPct += pct;
-        return (
-          <circle
-            key={i}
-            cx={cx}
-            cy={cy}
-            r={r}
-            fill="none"
-            strokeWidth={16}
-            stroke={seg.color}
-            strokeDasharray={strokeDasharray}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            style={{ transform: 'rotate(-90deg)', transformOrigin: '70px 70px', transition: 'stroke-dasharray 0.7s ease, stroke-dashoffset 0.7s ease' }}
-          />
-        );
-      })}
-      <text x="70" y="65" textAnchor="middle" style={{ fontSize: 15, fontWeight: 800, fill: '#1a1a2e', fontFamily: 'Inter' }}>
-        {total.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €
-      </text>
-      <text x="70" y="83" textAnchor="middle" style={{ fontSize: 10, fontWeight: 600, fill: '#B0B8C9', fontFamily: 'Inter', textTransform: 'uppercase', letterSpacing: 1 }}>
-        Total
-      </text>
-    </svg>
-  );
-};
 
 const Expenses = () => {
   const { user } = useAuth();
@@ -98,6 +61,8 @@ const Expenses = () => {
   };
   const del = async (id) => { await supabase.from('expenses').delete().eq('id', id); fetchData(); };
   const total = expenses.reduce((a, c) => a + parseFloat(c.amount), 0);
+
+  const usedColors = expenses.filter(exp => exp.id !== editingId).map(exp => exp.color);
 
   const donutSegments = expenses.map(exp => ({
     value: parseFloat(exp.amount),
@@ -246,13 +211,11 @@ const Expenses = () => {
           </FormCard>
 
           <FormCard>
-            <label style={{ fontSize: 12, fontWeight: 700, color: '#9CA3AF', display: 'block', marginBottom: 12 }}>Couleur de l'icône</label>
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              {COLORS.map(c => (
-                <button key={c} type="button" onClick={() => setFormData({ ...formData, color: c })}
-                  style={{ width: 32, height: 32, borderRadius: '50%', background: c, border: formData.color === c ? '3px solid #1a1a2e' : 'none', cursor: 'pointer', padding: 0 }} />
-              ))}
-            </div>
+            <ColorPicker 
+              value={formData.color} 
+              usedColors={usedColors} 
+              onChange={c => setFormData({ ...formData, color: c })} 
+            />
           </FormCard>
 
           <button type="submit" disabled={loading}
