@@ -6,13 +6,12 @@ import { Link } from 'react-router-dom';
 const TopBar = ({ title }) => {
   const { user, signOut } = useAuth();
   
-  // Obtenir le nom de l'utilisateur ou utiliser l'email par défaut
   const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Utilisateur';
 
   return (
     <div style={{ 
       background: 'white', 
-      padding: '16px 20px 12px', 
+      padding: 'calc(16px + env(safe-area-inset-top, 0px)) 20px 12px', 
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'space-between',
