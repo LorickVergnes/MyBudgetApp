@@ -99,20 +99,22 @@ const Incomes = () => {
         ) : (
           <>
             {/* Donut + legend */}
-            <div className="card fade-up" style={{ padding: '20px', marginTop: 16, display: 'flex', alignItems: 'center', gap: 20 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="card fade-up" style={{ padding: '20px', marginTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px 24px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '100px' }}>
                 <span style={{ fontSize: 11, fontWeight: 700, color: '#B0B8C9', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Total</span>
                 <span style={{ fontSize: 22, fontWeight: 900, color: '#1a1a2e' }}>{total.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</span>
               </div>
-              <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <DonutChart value={total} total={total || 1} color={ACCENT} size={120} />
               </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <div style={{ flex: '1 1 140px', display: 'flex', flexDirection: 'column', gap: 6, minWidth: '140px' }}>
                 {incomes.slice(0, 3).map(inc => (
-                  <div key={inc.id} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: inc.color || ACCENT, flexShrink: 0 }} />
-                    <span style={{ fontSize: 11, color: '#555', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{inc.name}</span>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: '#1a1a2e' }}>{parseFloat(inc.amount).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span>
+                  <div key={inc.id} style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1, minWidth: 0 }}>
+                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: inc.color || ACCENT, flexShrink: 0 }} />
+                      <span style={{ fontSize: 11, color: '#555', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{inc.name}</span>
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: '#1a1a2e', flexShrink: 0 }}>{parseFloat(inc.amount).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span>
                   </div>
                 ))}
               </div>

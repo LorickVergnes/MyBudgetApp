@@ -157,42 +157,46 @@ const Dashboard = () => {
             {/* Donut chart card */}
             <div className="card fade-up" style={{ padding: '20px', marginTop: 12 }}>
               <p style={{ fontSize: 13, fontWeight: 700, color: '#1a1a2e', marginBottom: 16 }}>Part des dépenses par rapport aux revenus</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px 24px', flexWrap: 'wrap' }}>
                 {/* SVG donut */}
-                <svg width={130} height={80} viewBox="0 0 180 100" style={{ flexShrink: 0 }}>
-                  {/* background arc */}
-                  <path d="M 20 90 A 70 70 0 0 1 160 90" fill="none" stroke="#EEF2FB" strokeWidth={18} />
-                  {/* fixed */}
-                  {data.income > 0 && (() => {
-                    const total = data.income;
-                    const fPct = Math.min(data.fixedExp / total, 1);
-                    const ePct = Math.min(data.envExp / total, 1 - fPct);
-                    const sPct = Math.min(data.savings / total, 1 - fPct - ePct);
-                    const arc = (startPct, endPct, color) => {
-                      const r = 70, cx = 90, cy = 90;
-                      const startA = Math.PI + startPct * Math.PI;
-                      const endA = Math.PI + endPct * Math.PI;
-                      const x1 = cx + r * Math.cos(startA), y1 = cy + r * Math.sin(startA);
-                      const x2 = cx + r * Math.cos(endA), y2 = cy + r * Math.sin(endA);
-                      const large = (endPct - startPct) > 0.5 ? 1 : 0;
-                      return <path key={color} d={`M${x1} ${y1} A${r} ${r} 0 ${large} 1 ${x2} ${y2}`} fill="none" stroke={color} strokeWidth={18} strokeLinecap="round" />;
-                    };
-                    return [
-                      arc(0, fPct, '#5C6EFF'),
-                      arc(fPct + 0.02, fPct + ePct, '#9B5CFF'),
-                      arc(fPct + ePct + 0.02, fPct + ePct + sPct, '#F9A825'),
-                    ];
-                  })()}
-                </svg>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
+                  <svg width={130} height={80} viewBox="0 0 180 100">
+                    {/* background arc */}
+                    <path d="M 20 90 A 70 70 0 0 1 160 90" fill="none" stroke="#EEF2FB" strokeWidth={18} />
+                    {/* fixed */}
+                    {data.income > 0 && (() => {
+                      const total = data.income;
+                      const fPct = Math.min(data.fixedExp / total, 1);
+                      const ePct = Math.min(data.envExp / total, 1 - fPct);
+                      const sPct = Math.min(data.savings / total, 1 - fPct - ePct);
+                      const arc = (startPct, endPct, color) => {
+                        const r = 70, cx = 90, cy = 90;
+                        const startA = Math.PI + startPct * Math.PI;
+                        const endA = Math.PI + endPct * Math.PI;
+                        const x1 = cx + r * Math.cos(startA), y1 = cy + r * Math.sin(startA);
+                        const x2 = cx + r * Math.cos(endA), y2 = cy + r * Math.sin(endA);
+                        const large = (endPct - startPct) > 0.5 ? 1 : 0;
+                        return <path key={color} d={`M${x1} ${y1} A${r} ${r} 0 ${large} 1 ${x2} ${y2}`} fill="none" stroke={color} strokeWidth={18} strokeLinecap="round" />;
+                      };
+                      return [
+                        arc(0, fPct, '#5C6EFF'),
+                        arc(fPct + 0.02, fPct + ePct, '#9B5CFF'),
+                        arc(fPct + ePct + 0.02, fPct + ePct + sPct, '#F9A825'),
+                      ];
+                    })()}
+                  </svg>
+                </div>
+                <div style={{ flex: '1 1 140px', display: 'flex', flexDirection: 'column', gap: 8, minWidth: '140px' }}>
                   {[
                     { label: 'Fixe', color: '#5C6EFF', val: data.income > 0 ? Math.round(data.fixedExp / data.income * 100) : 0 },
                     { label: 'Variable', color: '#9B5CFF', val: data.income > 0 ? Math.round(data.envExp / data.income * 100) : 0 },
                     { label: 'Épargne', color: '#F9A825', val: data.income > 0 ? Math.round(data.savings / data.income * 100) : 0 },
                   ].map(item => (
-                    <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: item.color }} />
-                      <span style={{ fontSize: 13, color: '#555', flex: 1 }}>{item.label}</span>
+                    <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 8, height: 8, borderRadius: '50%', background: item.color }} />
+                        <span style={{ fontSize: 13, color: '#555' }}>{item.label}</span>
+                      </div>
                       <span style={{ fontSize: 13, fontWeight: 700, color: '#1a1a2e' }}>{item.val}%</span>
                     </div>
                   ))}

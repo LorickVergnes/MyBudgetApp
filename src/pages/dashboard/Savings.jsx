@@ -88,12 +88,12 @@ const Savings = () => {
           <>
             {/* Summary card */}
             <div className="card fade-up" style={{ padding: '20px', marginTop: 16 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-                <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px 24px', flexWrap: 'wrap' }}>
+                <div style={{ minWidth: '100px', textAlign: 'center' }}>
                   <p style={{ fontSize: 12, color: '#B0B8C9', fontWeight: 600, marginBottom: 4 }}>Total</p>
                   <p style={{ fontSize: 24, fontWeight: 900, color: '#1a1a2e', marginBottom: 2 }}>{total.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</p>
                 </div>
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
                   <svg width={100} height={100} viewBox="0 0 140 140">
                     <circle cx="70" cy="70" r="52" fill="none" strokeWidth={16} stroke="#EEF2FB" />
                     {savings.map((s, i) => {
@@ -110,12 +110,14 @@ const Savings = () => {
                     })}
                   </svg>
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <div style={{ flex: '1 1 140px', display: 'flex', flexDirection: 'column', gap: 6, minWidth: '140px' }}>
                   {savings.slice(0, 3).map(s => (
-                    <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: s.color || '#F9A825', flexShrink: 0 }} />
-                      <span style={{ fontSize: 11, color: '#555', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.name}</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: '#1a1a2e' }}>{parseFloat(s.target_amount).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span>
+                    <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1, minWidth: 0 }}>
+                        <div style={{ width: 8, height: 8, borderRadius: '50%', background: s.color || '#F9A825', flexShrink: 0 }} />
+                        <span style={{ fontSize: 11, color: '#555', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.name}</span>
+                      </div>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: '#1a1a2e', flexShrink: 0 }}>{parseFloat(s.target_amount).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span>
                     </div>
                   ))}
                 </div>
