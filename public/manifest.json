@@ -2,10 +2,10 @@
   "name": "Luna Budget",
   "short_name": "LunaBudget",
   "description": "Gestion de budget personnel simple et efficace",
-  "start_url": "index.html",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#5C6EFF",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "assets/img/Logo_Luna_Budget_192.png",

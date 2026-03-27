@@ -11,7 +11,10 @@ const TopBar = ({ title }) => {
   return (
     <div style={{ 
       background: 'white', 
-      padding: 'calc(16px + env(safe-area-inset-top, 0px)) 20px 12px', 
+      paddingTop: 'max(24px, env(safe-area-inset-top, 24px))',
+      paddingBottom: '12px',
+      paddingLeft: '20px',
+      paddingRight: '20px',
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'space-between',
