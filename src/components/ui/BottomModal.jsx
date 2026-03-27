@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 const BottomModal = ({ isOpen, onClose, title, children }) => {
@@ -6,20 +7,28 @@ const BottomModal = ({ isOpen, onClose, title, children }) => {
 
   useEffect(() => {
     if (isOpen) {
-      // Small delay to allow CSS animation to trigger on mount
       requestAnimationFrame(() => setShow(true));
       document.body.style.overflow = 'hidden';
     } else {
       setShow(false);
-      document.body.style.overflow = 'auto';
+      const otherModals = document.querySelectorAll('[data-modal-open="true"]');
+      if (otherModals.length <= 1) {
+        document.body.style.overflow = 'auto';
+      }
     }
-    return () => { document.body.style.overflow = 'auto'; };
+    return () => { 
+      const otherModals = document.querySelectorAll('[data-modal-open="true"]');
+      if (otherModals.length <= 1) {
+        document.body.style.overflow = 'auto';
+      }
+    };
   }, [isOpen]);
 
   if (!isOpen && !show) return null;
 
-  return (
+  const modalContent = (
     <div 
+      data-modal-open={isOpen ? "true" : "false"}
       style={{ 
         position: 'fixed', inset: 0, 
         zIndex: 9999, display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
@@ -31,14 +40,15 @@ const BottomModal = ({ isOpen, onClose, title, children }) => {
       onClick={e => {
         if (e.target === e.currentTarget) {
           setShow(false);
-          setTimeout(onClose, 300); // Wait for transition
+          setTimeout(onClose, 300);
         }
       }}
     >
       <div 
         className="scrollbar-hide"
+        onClick={e => e.stopPropagation()} 
         style={{ 
-          width: '100%', maxWidth: 480, height: '94vh', 
+          width: '100%', maxWidth: 480, maxHeight: '94vh', 
           background: 'linear-gradient(170deg, #f4fcff 0%, #ffffff 40%, #f0fdf4 100%)',
           borderRadius: '32px 32px 0 0', 
           padding: '24px 20px 32px', 
@@ -48,11 +58,13 @@ const BottomModal = ({ isOpen, onClose, title, children }) => {
           transform: show ? 'translateY(0)' : 'translateY(100%)',
           opacity: show ? 1 : 0.8,
           transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease',
-          overflowY: 'auto'
+          overflowY: 'auto',
+          marginBottom: 0
         }}
       >
         {/* Close Button */}
         <button 
+          type="button"
           onClick={() => {
             setShow(false);
             setTimeout(onClose, 300);
@@ -92,6 +104,8 @@ const BottomModal = ({ isOpen, onClose, title, children }) => {
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 };
 
 export default BottomModal;
