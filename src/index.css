@@ -40,6 +40,12 @@ body,
   padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px));
 }
 
+/* Top bar safe area padding */
+:root {
+  --safe-top: env(safe-area-inset-top, 20px);
+}
+
+
 /* Hide number input spinners */
 .no-spinners::-webkit-inner-spin-button, 
 .no-spinners::-webkit-outer-spin-button { 

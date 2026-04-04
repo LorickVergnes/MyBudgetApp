@@ -11,15 +11,16 @@ const TopBar = ({ title }) => {
   return (
     <div style={{ 
       background: 'white', 
-      paddingTop: 'max(40px, env(safe-area-inset-top, 40px))',
-      paddingBottom: '12px',
+      paddingTop: 'calc(12px + var(--safe-top))',
+      paddingBottom: '14px',
       paddingLeft: '20px',
       paddingRight: '20px',
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'space-between',
       boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-      position: 'relative' // Nécessaire pour centrer le titre de façon absolue si on le souhaite, mais flex fonctionne bien
+      position: 'relative',
+      zIndex: 1000
     }}>
       
       {/* Profil de l'utilisateur (Gauche) */}
