@@ -10,10 +10,14 @@ import TopBar from '../../components/layout/TopBar';
 
 const GlobalView = () => {
     const { user } = useAuth();
-    const { selectedDate } = useMonth();
+    const { selectedDate, setSelectedDate } = useMonth();
     const [loading, setLoading] = useState(true);
     const [months, setMonths] = useState([]);
     const [allTimeBalance, setAllTimeBalance] = useState(0);
+
+    useEffect(() => {
+        setSelectedDate(new Date());
+    }, []);
 
     useEffect(() => { if (user) fetchGlobal(); }, [user, selectedDate]);
 
