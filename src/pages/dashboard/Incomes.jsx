@@ -69,7 +69,9 @@ const Incomes = () => {
   
   const handleAdd = async (e) => {
     e.preventDefault(); setLoading(true);
-    const data = { ...formData, amount: parseFloat(formData.amount), user_id: user.id, month_date: formatMonthDate(selectedDate) };
+    // Arrondi explicite à 2 décimales pour éviter les erreurs de précision (ex: 20 -> 19.99)
+    const roundedAmount = Math.round(parseFloat(formData.amount) * 100) / 100;
+    const data = { ...formData, amount: roundedAmount, user_id: user.id, month_date: formatMonthDate(selectedDate) };
     if (editingId) {
       const { error } = await supabase.from('incomes').update(data).eq('id', editingId);
       if (error) { alert(error.message); setLoading(false); }

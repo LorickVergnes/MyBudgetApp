@@ -29,7 +29,7 @@ create table envelopes (
   is_recurrent boolean default false,
   icon text default 'Wallet',
   color text default '#3b82f6',
-  max_amount numeric not null default 0, -- Seuil à ne pas dépasser
+  max_amount numeric(12, 2) not null default 0, -- Seuil à ne pas dépasser
   month_date date not null, -- Format YYYY-MM-01 (ex: 2026-03-01) pour identifier le mois
   created_at timestamp with time zone default now()
 );
@@ -39,7 +39,7 @@ create table incomes (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references profiles(id) on delete cascade not null,
   name text not null,
-  amount numeric not null default 0,
+  amount numeric(12, 2) not null default 0,
   date date not null default current_date,
   is_recurrent boolean default false,
   icon text default 'ArrowUpCircle',
@@ -56,7 +56,7 @@ create table savings (
   is_recurrent boolean default false,
   icon text default 'PiggyBank',
   color text default '#8b5cf6',
-  target_amount numeric not null default 0, -- Montant objectif par mois
+  target_amount numeric(12, 2) not null default 0, -- Montant objectif par mois
   month_date date not null, -- Format YYYY-MM-01
   max_month date, -- Format YYYY-MM-01 (Optionnel : date de fin de la récurrence)
   created_at timestamp with time zone default now()
@@ -67,7 +67,7 @@ create table expenses (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references profiles(id) on delete cascade not null,
   name text not null,
-  amount numeric not null default 0,
+  amount numeric(12, 2) not null default 0,
   date date not null default current_date,
   is_recurrent boolean default false,
   icon text default 'ArrowDownCircle',
@@ -82,7 +82,7 @@ create table envelope_expenses (
   user_id uuid references profiles(id) on delete cascade not null,
   envelope_id uuid references envelopes(id) on delete cascade not null,
   name text not null,
-  amount numeric not null default 0,
+  amount numeric(12, 2) not null default 0,
   date date not null default current_date,
   icon text default 'ShoppingCart',
   color text default '#3b82f6',
@@ -95,7 +95,7 @@ create table saving_entries (
     id uuid primary key default gen_random_uuid(),
     user_id uuid references profiles(id) on delete cascade not null,
     saving_id uuid references savings(id) on delete cascade not null,
-    amount numeric not null,
+    amount numeric(12, 2) not null,
     date date not null default current_date,
     month_date date not null, -- Format YYYY-MM-01
     created_at timestamp with time zone default now()

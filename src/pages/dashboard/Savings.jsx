@@ -70,7 +70,9 @@ const Savings = () => {
 
   const handleAdd = async (e) => {
     e.preventDefault(); setLoading(true);
-    const data = { ...formData, target_amount: parseFloat(formData.target_amount), user_id: user.id, month_date: formatMonthDate(selectedDate) };
+    // Arrondi explicite à 2 décimales pour éviter les erreurs de précision (ex: 20 -> 19.99)
+    const roundedAmount = Math.round(parseFloat(formData.target_amount) * 100) / 100;
+    const data = { ...formData, target_amount: roundedAmount, user_id: user.id, month_date: formatMonthDate(selectedDate) };
     if (data.is_recurrent && data.max_month) {
        data.max_month = `${data.max_month}-01`;
     } else {

@@ -72,7 +72,9 @@ const Envelopes = () => {
 
   const handleAdd = async (e) => {
     e.preventDefault(); setLoading(true);
-    const data = { ...formData, max_amount: parseFloat(formData.max_amount), user_id: user.id, month_date: formatMonthDate(selectedDate) };
+    // Arrondi explicite à 2 décimales pour éviter les erreurs de précision (ex: 20 -> 19.99)
+    const roundedAmount = Math.round(parseFloat(formData.max_amount) * 100) / 100;
+    const data = { ...formData, max_amount: roundedAmount, user_id: user.id, month_date: formatMonthDate(selectedDate) };
     if (editingId) {
       const { error } = await supabase.from('envelopes').update(data).eq('id', editingId);
       if (!error) { setFormData({ name: '', max_amount: '', icon: 'Wallet', color: ACCENT, is_recurrent: false }); setShowForm(false); setEditingId(null); fetchData(); }
