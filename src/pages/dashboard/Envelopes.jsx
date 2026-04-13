@@ -242,7 +242,7 @@ const Envelopes = () => {
                           </span>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
-                          <button onClick={e => del(e, env)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <button onClick={e => openEdit(e, env)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}>
 
                             <Pencil size={13} style={{ color: '#9CA3AF' }} />
                           </button>

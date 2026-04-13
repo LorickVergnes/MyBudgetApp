@@ -245,7 +245,7 @@ const Savings = () => {
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
                               <p style={{ fontSize: 15, fontWeight: 800, color: '#1a1a2e' }}>{s.name}</p>
                               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                <button onClick={e => del(e, s)} style={{ background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0, padding: 4 }}>
+                                <button onClick={e => openEdit(e, s)} style={{ background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0, padding: 4 }}>
 
                                   <Pencil size={16} style={{ color: '#9CA3AF' }} />
                                 </button>
