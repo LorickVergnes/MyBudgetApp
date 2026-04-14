@@ -123,12 +123,24 @@ const EnvelopeDetail = () => {
                     {parseFloat(exp.amount).toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € – {new Date(exp.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
                   </p>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <button onClick={() => openEdit(exp)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
-                    <Pencil size={16} style={{ color: '#9CA3AF' }} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <button 
+                    onClick={() => openEdit(exp)} 
+                    style={{ 
+                      background: '#F3F4F6', border: 'none', borderRadius: 10, width: 36, height: 36,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                    }}
+                  >
+                    <Pencil size={18} style={{ color: '#6B7280' }} />
                   </button>
-                  <button onClick={() => del(exp.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
-                    <Trash2 size={16} style={{ color: '#D1D5DB' }} />
+                  <button 
+                    onClick={() => del(exp.id)} 
+                    style={{ 
+                      background: '#FEE2E2', border: 'none', borderRadius: 10, width: 36, height: 36,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                    }}
+                  >
+                    <Trash2 size={18} style={{ color: '#EF4444' }} />
                   </button>
                 </div>
               </div>

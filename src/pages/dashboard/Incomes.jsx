@@ -213,13 +213,25 @@ const Incomes = () => {
             {parseFloat(inc.amount).toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € – {new Date(inc.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
           </p>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {inc.is_recurrent && <RotateCw size={12} style={{ color: '#9B5CFF' }} />}
-          <button onClick={() => openEdit(inc)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, borderRadius: 8 }}>
-            <Pencil size={16} style={{ color: '#9CA3AF' }} />
+          <button 
+            onClick={() => openEdit(inc)} 
+            style={{ 
+              background: '#F3F4F6', border: 'none', borderRadius: 10, width: 36, height: 36,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+            }}
+          >
+            <Pencil size={18} style={{ color: '#6B7280' }} />
           </button>
-          <button onClick={() => del(inc)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, borderRadius: 8 }}>
-            <Trash2 size={16} style={{ color: '#D1D5DB' }} />
+          <button 
+            onClick={() => del(inc)} 
+            style={{ 
+              background: '#FEE2E2', border: 'none', borderRadius: 10, width: 36, height: 36,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+            }}
+          >
+            <Trash2 size={18} style={{ color: '#EF4444' }} />
           </button>
         </div>
       </div>

@@ -191,9 +191,31 @@ const Envelopes = () => {
             <p style={{ fontSize: 14, fontWeight: 800, color: '#1a1a2e' }}>{env.name}</p>
             <p style={{ fontSize: 11, color: '#B0B8C9', fontWeight: 500 }}>Max : {env.max_amount} €</p>
           </div>
-          <div style={{ display: 'flex', gap: 6 }}>
-            <button onClick={e => openEdit(e, env)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><Pencil size={13} style={{ color: '#9CA3AF' }} /></button>
-            <button onClick={e => del(e, env)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><Trash2 size={13} style={{ color: '#D1D5DB' }} /></button>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button 
+              onClick={e => openEdit(e, env)} 
+              style={{ 
+                background: '#F3F4F6', border: 'none', borderRadius: 10, width: 38, height: 38,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#E5E7EB'}
+              onMouseLeave={e => e.currentTarget.style.background = '#F3F4F6'}
+            >
+              <Pencil size={18} style={{ color: '#6B7280' }} />
+            </button>
+            <button 
+              onClick={e => del(e, env)} 
+              style={{ 
+                background: '#FEE2E2', border: 'none', borderRadius: 10, width: 38, height: 38,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#FECACA'}
+              onMouseLeave={e => e.currentTarget.style.background = '#FEE2E2'}
+            >
+              <Trash2 size={18} style={{ color: '#EF4444' }} />
+            </button>
           </div>
         </div>
         {/* Progress bar */}
@@ -362,10 +384,27 @@ const Envelopes = () => {
                           <div style={{ width: 8, height: 8, borderRadius: '50%', background: over ? '#ef4444' : '#22c55e' }} />
                           <span style={{ fontSize: 11, fontWeight: 600, color: over ? '#ef4444' : '#22c55e' }}>Reste : {remaining.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} €</span>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
-                          <button onClick={e => openEdit(e, env)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}><Pencil size={13} style={{ color: '#9CA3AF' }} /></button>
-                          <button onClick={e => del(e, env)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}><Trash2 size={13} style={{ color: '#D1D5DB' }} /></button>
+                        <div style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
+                          <button 
+                            onClick={e => openEdit(e, env)} 
+                            style={{ 
+                              background: 'transparent', border: 'none', borderRadius: '50%', width: 38, height: 38,
+                              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                            }}
+                          >
+                            <Pencil size={16} style={{ color: '#B0B8C9' }} />
+                          </button>
+                          <button 
+                            onClick={e => del(e, env)} 
+                            style={{ 
+                              background: 'transparent', border: 'none', borderRadius: '50%', width: 38, height: 38,
+                              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                            }}
+                          >
+                            <Trash2 size={16} style={{ color: '#B0B8C9' }} />
+                          </button>
                         </div>
+
                       </div>
                     );
                   })}

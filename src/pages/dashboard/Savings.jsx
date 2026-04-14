@@ -196,9 +196,27 @@ const Savings = () => {
             <p style={{ fontSize: 14, fontWeight: 800, color: '#1a1a2e' }}>{s.name}</p>
             <p style={{ fontSize: 11, color: '#B0B8C9', fontWeight: 500 }}>Objectif : {parseFloat(s.target_amount).toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</p>
           </div>
-          <div style={{ display: 'flex', gap: 4 }}>
-            <button onClick={e => openEdit(e, s)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><Pencil size={14} style={{ color: '#9CA3AF' }} /></button>
-            <button onClick={e => del(e, s)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><Trash2 size={14} style={{ color: '#D1D5DB' }} /></button>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button 
+              onClick={e => openEdit(e, s)} 
+              style={{ 
+                background: '#F3F4F6', border: 'none', borderRadius: 10, width: 38, height: 38,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              <Pencil size={18} style={{ color: '#6B7280' }} />
+            </button>
+            <button 
+              onClick={e => del(e, s)} 
+              style={{ 
+                background: '#FEE2E2', border: 'none', borderRadius: 10, width: 38, height: 38,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              <Trash2 size={18} style={{ color: '#EF4444' }} />
+            </button>
           </div>
         </div>
         {/* Progress bar */}
@@ -364,9 +382,25 @@ const Savings = () => {
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
                               <p style={{ fontSize: 15, fontWeight: 800, color: '#1a1a2e' }}>{s.name}</p>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                <button onClick={e => openEdit(e, s)} style={{ background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0, padding: 4 }}><Pencil size={16} style={{ color: '#9CA3AF' }} /></button>
-                                <button onClick={e => del(e, s)} style={{ background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0, padding: 4 }}><Trash2 size={16} style={{ color: '#D1D5DB' }} /></button>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                <button 
+                                  onClick={e => openEdit(e, s)} 
+                                  style={{ 
+                                    background: 'transparent', border: 'none', borderRadius: '50%', width: 38, height: 38,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                                  }}
+                                >
+                                  <Pencil size={16} style={{ color: '#B0B8C9' }} />
+                                </button>
+                                <button 
+                                  onClick={e => del(e, s)} 
+                                  style={{ 
+                                    background: 'transparent', border: 'none', borderRadius: '50%', width: 38, height: 38,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                                  }}
+                                >
+                                  <Trash2 size={16} style={{ color: '#B0B8C9' }} />
+                                </button>
                               </div>
                             </div>
                             <p style={{ fontSize: 12, color: '#B0B8C9', fontWeight: 500, marginBottom: 8 }}>
